@@ -1,0 +1,4 @@
+
+<resources>
+    <style name="SharedElementsTheme" parent="Theme.Material3.Light.NoActionBar"/>
+</resources>

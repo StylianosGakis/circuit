@@ -15,6 +15,7 @@
  */
 package com.slack.circuit.backstack
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -28,6 +29,6 @@ public interface NavDecoration {
     args: ImmutableList<T>,
     backStackDepth: Int,
     modifier: Modifier,
-    content: @Composable (T) -> Unit,
+    content: @Composable AnimatedContentScope.(T) -> Unit,
   )
 }

@@ -3,6 +3,7 @@
 package com.slack.circuit.foundation
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -20,6 +21,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.getValue
@@ -126,6 +128,7 @@ public fun <R : Record> NavigableCircuitContent(
           LocalRetainedStateRegistry provides recordRetainedStateRegistry,
           LocalCanRetainChecker provides CanRetainChecker.Always,
           LocalBackStack provides backStack,
+          LocalCircuitAnimatedContentScope provides this@DecoratedContent,
           *providedLocals,
         ) {
           provider.content(record)
@@ -298,7 +301,7 @@ public object NavigatorDefaults {
       args: ImmutableList<T>,
       backStackDepth: Int,
       modifier: Modifier,
-      content: @Composable (T) -> Unit,
+      content: @Composable AnimatedContentScope.(T) -> Unit,
     ) {
       @OptIn(InternalCircuitApi::class)
       AnimatedContent(
@@ -335,9 +338,11 @@ public object NavigatorDefaults {
       args: ImmutableList<T>,
       backStackDepth: Int,
       modifier: Modifier,
-      content: @Composable (T) -> Unit,
+      content: @Composable AnimatedContentScope.(T) -> Unit,
     ) {
-      content(args.first())
+      AnimatedContent(Unit) {
+        content(args.first())
+      }
     }
   }
 }
@@ -347,3 +352,7 @@ public object NavigatorDefaults {
  * [rememberAnsweringNavigator] composable, useful for cases where we create nested nav handling.
  */
 internal val LocalBackStack = compositionLocalOf<BackStack<out Record>?> { null }
+
+public val LocalCircuitAnimatedContentScope: ProvidableCompositionLocal<AnimatedContentScope> = compositionLocalOf {
+  error("AnimatedContentScope not provided")
+}

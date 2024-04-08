@@ -41,6 +41,9 @@ dependencyResolutionManagement {
   repositories {
     // Repos are declared roughly in order of likely to hit.
 
+    // androidx snapshots
+    maven(url = "https://androidx.dev/snapshots/builds/11679629/artifacts/repository/")
+
     // Snapshots/local go first in order to pre-empty other repos that may contain unscrupulous
     // snapshots.
     if (hasProperty("circuit.config.enableSnapshots")) {
@@ -227,6 +230,7 @@ include(
   ":samples:counter:apps",
   ":samples:counter:mosaic",
   ":samples:interop",
+  ":samples:shared-shapes",
   ":samples:star",
   ":samples:star:apk",
   ":samples:star:benchmark",

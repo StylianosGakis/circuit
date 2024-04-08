@@ -51,6 +51,7 @@ kotlin {
     commonMain {
       dependencies {
         implementation(libs.atomicfu)
+        api(libs.compose.animation)
         api(libs.compose.runtime)
         api(libs.compose.ui)
         api(libs.coroutines)

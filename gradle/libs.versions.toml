@@ -182,6 +182,7 @@ coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.re
 coil3-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil3" }
 coil3-test = { module = "io.coil-kt.coil3:coil-test", version.ref = "coil3" }
 
+compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "compose-jb" }
 compose-compilerJb = { module = "org.jetbrains.compose.compiler:compiler", version.ref = "compose-jb-compiler" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-jb" }
 compose-runtime-saveable = { module = "org.jetbrains.compose.runtime:runtime-saveable", version.ref = "compose-jb" }

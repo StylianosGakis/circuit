@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package com.slack.circuitx.gesturenavigation
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.window.BackEvent
 import androidx.activity.BackEventCompat
@@ -9,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.fadeIn
@@ -50,12 +52,13 @@ public actual fun GestureNavigationDecoration(
 @RequiresApi(34)
 private class AndroidPredictiveNavigationDecoration(private val onBackInvoked: () -> Unit) :
   NavDecoration {
+  @SuppressLint("UnusedContentLambdaTargetStateParameter")
   @Composable
   override fun <T> DecoratedContent(
     args: ImmutableList<T>,
     backStackDepth: Int,
     modifier: Modifier,
-    content: @Composable (T) -> Unit,
+    content: @Composable AnimatedContentScope.(T) -> Unit,
   ) {
     Box(modifier = modifier) {
       val current = args.first()
@@ -78,7 +81,11 @@ private class AndroidPredictiveNavigationDecoration(private val onBackInvoked: (
         // AnimatedContent below. If we call it here too, we will invoke a new copy of
         // the content (and thus dropping all state). The if statement above keeps the states
         // exclusive, so that the movable content is only used once at a time.
-        OptionalLayout(shouldLayout = { showPrevious }) { content(previous) }
+        OptionalLayout(shouldLayout = { showPrevious }) {
+          AnimatedContent(Unit) {
+            content(previous)
+          }
+        }
       }
 
       LaunchedEffect(transition.currentState) {
